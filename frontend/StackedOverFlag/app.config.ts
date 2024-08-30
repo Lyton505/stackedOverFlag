@@ -17,6 +17,12 @@ module.exports = ({ config }: ConfigContext): Partial<ExpoConfig> => {
 
   return {
     ...config,
+    updates: {
+      url: "https://u.expo.dev/8cc4bd20-2e40-4204-9d07-ad72526e0169",
+    },
+    runtimeVersion: {
+      policy: "appVersion"
+    },
     plugins: [
       ...existingPlugins,
       require("./plugins/withSplashScreen").withSplashScreen,

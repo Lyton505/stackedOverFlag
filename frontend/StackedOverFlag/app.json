@@ -1,10 +1,10 @@
 {
-  "name": "StackedFlags",
-  "displayName": "StackedFlags",
+  "name": "StackedOverFlag",
+  "displayName": "StackedOverFlag",
   "expo": {
-    "name": "StackedFlags",
-    "slug": "StackedFlags",
-    "scheme": "stackedflags",
+    "name": "StackedOverFlag",
+    "slug": "StackedOverFlag",
+    "scheme": "StackedOverFlag",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-all.png",
@@ -12,6 +12,11 @@
       "image": "./assets/images/splash-logo-all.png",
       "resizeMode": "contain",
       "backgroundColor": "#191015"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8cc4bd20-2e40-4204-9d07-ad72526e0169"
+      }
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,7 +27,7 @@
     ],
     "android": {
       "icon": "./assets/images/app-icon-android-legacy.png",
-      "package": "com.stackedflags",
+      "package": "com.StackedOverFlag",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
         "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"
@@ -36,7 +41,7 @@
     "ios": {
       "icon": "./assets/images/app-icon-ios.png",
       "supportsTablet": true,
-      "bundleIdentifier": "com.stackedflags",
+      "bundleIdentifier": "com.StackedOverFlag",
       "splash": {
         "image": "./assets/images/splash-logo-ios-mobile.png",
         "tabletImage": "./assets/images/splash-logo-ios-tablet.png",
