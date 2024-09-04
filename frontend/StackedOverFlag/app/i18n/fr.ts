@@ -27,6 +27,9 @@ const fr: Translations = {
       button: "Essayons à nouveau",
     },
   },
+  testScreen: {
+    heading: "Écran de test",
+  },
 }
 
 export default fr

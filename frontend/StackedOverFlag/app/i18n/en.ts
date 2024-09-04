@@ -25,6 +25,9 @@ const en = {
       button: "Let's try this again",
     },
   },
+  testScreen: {
+    heading: "Test Screen",
+  },
 }
 
 export default en
