@@ -30,7 +30,7 @@ import { colors } from "app/theme"
 export type AppStackParamList = {
   Welcome: undefined
   GameWelcome: undefined
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  QuestionScreen: undefined
 }
 
 /**
@@ -52,6 +52,7 @@ const AppStack = observer(function AppStack() {
     <Stack.Navigator screenOptions={{ headerShown: false, navigationBarColor: colors.background }}>
       <Stack.Screen name="GameWelcome" component={Screens.GameWelcomeScreen} />
       <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
+      <Stack.Screen name="QuestionScreen" component={Screens.QuestionScreen} />
     </Stack.Navigator>
   )
 })

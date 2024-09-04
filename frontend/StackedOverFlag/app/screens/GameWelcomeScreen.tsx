@@ -9,7 +9,7 @@ import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 
 interface GameWelcomeScreenProps extends AppStackScreenProps<"GameWelcome"> { }
 
-export const GameWelcomeScreen: FC<GameWelcomeScreenProps> = observer(function GameWelcomeScreen() {
+export const GameWelcomeScreen: FC<GameWelcomeScreenProps> = observer(function GameWelcomeScreen({ navigation }) {
   const $containerInsets = useSafeAreaInsetsStyle(["top", "bottom", "left", "right"])
 
   const gameLogo = require("../../assets/images/game-logo.png")
@@ -35,7 +35,8 @@ export const GameWelcomeScreen: FC<GameWelcomeScreenProps> = observer(function G
           text="Play as Guest"
           onPress={() => {
             console.log("Play as Guest");
-
+            // Use the navigation prop from the component props
+            navigation.navigate("QuestionScreen");
           }}
         />
       </View>
