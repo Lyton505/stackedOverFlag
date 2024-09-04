@@ -40,6 +40,7 @@ const config = {
       path: "",
     },
     Welcome: "welcome",
+    GameWelcome: "GameWelcome",
     Demo: {
       screens: {
         DemoShowroom: {
