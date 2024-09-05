@@ -5,7 +5,7 @@ This is a game built with React Native. It is a trivia game where the user has t
 ## How to run the game frontend on your phone - easiest method
 
 1. Clone the repository
-2. Run `cd frontend/StackedOverFlag/` to install the dependencies
+2. Run `cd frontend/StackedOverFlag/` navigate to the frontend project folder
 2. Run `yarn` to install the dependencies
 3. Run `npx expo start` to start the development server
 4. Scan the QR code with the Expo Go app on your phone or tablet
