@@ -10,6 +10,6 @@ This is a game built with React Native. It is a trivia game where the user has t
 4. Scan the QR code with the Expo Go app on your phone or tablet
 
 
-## nb. I used the Ignite template to build this project to save time. The old README.md is in [ReadMe.old.md](./ReadMe.old.md)
+#### nb. I used the Ignite template to build this project to save time. The old README.md is in [ReadMe.old.md](./ReadMe.old.md)
 
 --- 
