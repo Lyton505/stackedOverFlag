@@ -1,2 +1,8 @@
 # ignore idea at any level
 .idea/
+
+# Ignore node_modules in any directory
+node_modules/
+
+# If you still want to keep the specific ignore for the backend
+backend/StackedOverFlag/node_modules/
