@@ -44,6 +44,26 @@ export class Api {
     })
   }
 
+  async getTest() {
+    const response = await this.apisauce.get("/test")
+    return response.data
+  }
+
+  async getQuestion() {
+    const response = await this.apisauce.get("/api/question")
+    return response.data
+  }
+
+  async submitAnswer(answer: string) {
+    const response = await this.apisauce.post("/api/response", { answer })
+    return response.data
+  }
+
+  async resetGame() {
+    const response = await this.apisauce.post("/api/reset")
+    return response.data
+  }
+
 }
 
 // Singleton instance of the API for convenience
