@@ -1,19 +1,18 @@
 import { observer } from "mobx-react-lite"
-import React, { FC, useState } from "react"
-import { Image, ImageStyle, TextInput, TextStyle, View, ViewStyle, KeyboardAvoidingView, Platform, ScrollView, SafeAreaView, Keyboard, TouchableWithoutFeedback } from "react-native"
-import { Button, Text } from "app/components"
-import { isRTL } from "../i18n"
+import React, { FC, useEffect, useState } from "react"
+import { View, ViewStyle, SafeAreaView } from "react-native"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { tr } from "date-fns/locale"
 import { GameHeader } from "app/components/GameHeader"
 import { GameHint } from "app/components/GameHint"
 import { GameQuestion } from "app/components/GameQuestion"
 import { GameAnswerContainer } from "app/components/GameAnswerContainer"
 import { GameButton } from "app/components/GameButton"
 import { GameResponseResult } from "app/components/GameResponseResult"
+import { Api } from "app/services/api/api"
+import { ApiResponse } from "apisauce"
 
 interface QuestionScreenProps extends AppStackScreenProps<"QuestionScreen"> { }
 
@@ -54,6 +53,18 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     console.log("next question");
     setAnswerSubmitted(false)
   }
+
+
+  useEffect(() => {
+    const testApi = async () => {
+      const response = await Api.getTest();
+      console.log("api test response", response)
+    }
+
+    testApi()
+  }, [])
+
+
 
   return (
     <SafeAreaView style={[$container, $containerInsets]}>
