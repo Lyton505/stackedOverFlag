@@ -68,18 +68,20 @@ const readCSV = () => {
             if (userAnswer === csvData[questionIndex].Answer) {
                 console.log("User correct answer:", userAnswer);
                 console.log("Correct answer:", csvData[questionIndex].Answer);
-                res.json({ message: 'Correct' });
+                
                 score++;
 
                 if (score % 3 === 0){
                     lives++;
                 }
 
+                res.json({ message: 'Correct', score: score, lives: lives, hints: hints });
+
             } else {
                 console.log("User incorrect answer:", userAnswer);
                 console.log("Correct answer:", csvData[questionIndex].Answer);
-                res.json({ message: 'Incorrect' });
                 lives--;
+                res.json({ message: 'Incorrect', score: score, lives: lives, hints: hints });
             }
         
             
@@ -89,6 +91,9 @@ const readCSV = () => {
 
         app.post('/api/reset', (req, res) => {
             questionIndex = 0;
+            score = 0;
+            lives = 3;
+            hints = 3;
             res.json({ message: 'Question index reset to 0' });
         });
         
