@@ -5,6 +5,8 @@
  *
  * https://reactnative.dev/docs/security#storing-sensitive-info
  */
+
+// this is the backend url - for dev on local machine
 export default {
-  API_URL: "https://api.rss2json.com/v1/",
+  API_URL: "http://localhost:3000",
 }
