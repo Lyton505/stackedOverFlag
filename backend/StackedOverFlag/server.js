@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -9,6 +10,9 @@ const { log } = require('console');
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+// Middleware to enable CORS
+app.use(cors());
 
 
 // Read the CSV file
@@ -99,8 +103,8 @@ const readCSV = () => {
         
         
         // Start the server
-        app.listen(PORT, () => {
-            console.log(`Server is running on http://localhost:${PORT}`);
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`Server is running on http://0.0.0.0:${PORT}`);
         });
 
     }
