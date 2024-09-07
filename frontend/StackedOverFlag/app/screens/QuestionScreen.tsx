@@ -11,8 +11,6 @@ import { GameQuestion } from "app/components/GameQuestion"
 import { GameAnswerContainer } from "app/components/GameAnswerContainer"
 import { GameButton } from "app/components/GameButton"
 import { GameResponseResult } from "app/components/GameResponseResult"
-import { Api } from "app/services/api/api"
-import { ApiResponse } from "apisauce"
 
 interface QuestionScreenProps extends AppStackScreenProps<"QuestionScreen"> { }
 
@@ -21,7 +19,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
 
   // toDo: get question & answer from backend
   // toDo: use better state management
-  const [question, setQuestion] = useState<string>("Which country has the most dogs, cats, cows, and chickens? It is the largest by land mass in Africa.")
+  const [question, setQuestion] = useState<string>("Getting question...")
   const [viewHint, setViewHint] = useState<boolean>(true)
 
   const [userAnswer, setUserAnswer] = useState<string>("")
@@ -30,6 +28,64 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const [answerSubmitted, setAnswerSubmitted] = useState<boolean>(false)
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>(false)
   const [viewNextQuestion, setViewNextQuestion] = useState<boolean>(false)
+
+
+  // test api
+  const testApi = async () => {
+    console.log("testing api");
+    await fetch('http://localhost:3000/api/question').then(res => res.json()).then(data => {
+      console.log("api test response", data)
+      return data
+    })
+  }
+
+
+  // get question from backend
+  const getQuestion = async () => {
+    console.log("getting question");
+    await fetch('http://localhost:3000/api/question').then(res => res.json()).then(data => {
+      console.log("api question response", data)
+      setQuestion(data.question)
+      return data
+    }).catch(err => {
+      console.log("error getting question", err)
+    })
+  }
+
+
+  // get answer from backend
+  const getAnswer = async () => {
+    console.log("getting answer");
+    await fetch('http://localhost:3000/api/answer').then(res => res.json()).then(data => {
+      console.log("api answer response", data)
+      return data
+    })
+  }
+
+  // submit answer to backend
+  const submitAnswer = async (answer: string) => {
+    console.log("submitting answer");
+    await fetch('http://localhost:3000/api/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ answer })
+    }).then(res => res.json()).then(data => {
+      console.log("api test response", data)
+      return data
+    })
+  }
+
+  // reset game
+  const resetGame = async () => {
+    console.log("resetting game");
+    await fetch('http://localhost:3000/api/reset').then(res => res.json()).then(data => {
+      console.log("api reset response", data)
+      return data
+    })
+  }
+
 
   const handleViewHint = () => {
     console.log("view hint");
@@ -54,14 +110,9 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     setAnswerSubmitted(false)
   }
 
-
   useEffect(() => {
-    const testApi = async () => {
-      const response = await Api.getTest();
-      console.log("api test response", response)
-    }
-
-    testApi()
+    console.log("Starting game");
+    getQuestion();
   }, [])
 
 
