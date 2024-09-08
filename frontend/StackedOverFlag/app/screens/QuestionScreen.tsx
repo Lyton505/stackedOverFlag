@@ -192,10 +192,6 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
           <View style={$submitButtonContainer}>
             <GameButton btnText="View Hint" onPress={handleViewHint} />
             <GameButton btnText="Submit Guess" onPress={handleSubmitGuess} />
-            <GameButton
-              btnText="Play Again"
-              onPress={resetGame}
-            />
           </View>
         </View >
       )
