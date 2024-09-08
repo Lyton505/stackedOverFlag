@@ -33,7 +33,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const [isGameOver, setIsGameOver] = useState<boolean>(false)
   const [continueGame, setContinueGame] = useState<boolean>(true)
   const [gameReset, setGameReset] = useState<boolean>(false)
-
+  const [questionHint, setQuestionHint] = useState<string>("")
   const [hints, setHints] = useState<number>(3)
   const [lives, setLives] = useState<number>(3)
   const [score, setScore] = useState<number>(0)
@@ -103,7 +103,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     setHints(3)
     setScore(0)
 
-
+    setViewHint(false)
     setIsGameOver(false)
     setContinueGame(true)
     setGameReset(!gameReset)
@@ -112,7 +112,22 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   }
 
 
-  const handleViewHint = () => {
+  const handleViewHint = async () => {
+
+
+    try {
+      const response = await fetch('http://10.10.10.1:3000/api/hint')
+
+
+      const data = await response.json()
+      setQuestionHint(data.questionHint)
+      setHints(data.hintsRemaining)
+    } catch (err) {
+      setQuestionHint("Error getting hint")
+      console.log("error getting hint", err)
+    }
+
+
     setViewHint(!viewHint)
   }
 
@@ -154,7 +169,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     if (!answerSubmitted) {
       return (
         <View style={$answerBodyContainer}>
-          {viewHint && <GameHint />}
+          {viewHint && <GameHint questionHint={questionHint} />}
           <GameAnswerContainer onChangeText={setUserAnswer} />
           <View style={$submitButtonContainer}>
             <GameButton btnText="View Hint" onPress={handleViewHint} />
