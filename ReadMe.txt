@@ -1,3 +1,7 @@
+Name: Lyton Mhlanga
+Vanderbilt email: lyton.mhlanga@vanderbilt.edu
+
+
 StackedOverFlag
 
 This is a game where the user has to match the question with the correct country. The user starts with 3 lives and 3 hints. Each wrong answer costs a life and each hint costs a hint. Getting 3 questions correct earns the user a hint. 
