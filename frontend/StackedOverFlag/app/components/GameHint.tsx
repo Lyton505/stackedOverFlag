@@ -8,18 +8,15 @@ import {
     ImageStyle
 } from "react-native"
 
-export const GameHint = () => {
+export const GameHint = ({ questionHint }: { questionHint: string }) => {
     const hintImage = require("../../assets/images/gameplay-hint.png")
     return (<View style={$hintContainer}>
         <View style={$hintHeader}>
             <Image source={hintImage} style={$rewardImage} />
             <Text>Hint</Text>
         </View>
-        <Text style={$hintText}>It is a country in South
-            America with a lot of dogs and has a population of over
-            10 million people
-        </Text>
-    </View>)
+        <Text style={$hintText}>{questionHint}</Text>
+    </View >)
 }
 
 const $rewardImage: ImageStyle = {
