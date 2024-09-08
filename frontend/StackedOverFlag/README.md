@@ -2,6 +2,8 @@
 
 This is a game built with React Native. It is a trivia game where the user has to guess the correct country to a question.
 
+nb. Sign in with Google doesn't work yet
+
 # Setting up the game
 
 ### Prerequisites
@@ -48,5 +50,13 @@ https://github.com/user-attachments/assets/99405abf-e932-43e4-8f93-51d39f5d9726
 
 
 #### nb. I used the Ignite template to build this project to save time. The old README.md is in [ReadMe.old.md](./ReadMe.old.md)
+
+## What's on the horizon
+- leaderboard
+- offline mode
+- authentication
+- difficulty levels
+- different categories
+- (maybe) monetization :-)
 
 --- 
