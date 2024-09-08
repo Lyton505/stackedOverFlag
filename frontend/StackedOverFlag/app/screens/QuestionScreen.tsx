@@ -11,7 +11,6 @@ import { GameQuestion } from "app/components/GameQuestion"
 import { GameAnswerContainer } from "app/components/GameAnswerContainer"
 import { GameButton } from "app/components/GameButton"
 import { GameResponseResult } from "app/components/GameResponseResult"
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry"
 import { GameOver } from "app/components/GameOver"
 
 interface QuestionScreenProps extends AppStackScreenProps<"QuestionScreen"> { }
@@ -115,13 +114,16 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const handleViewHint = async () => {
 
 
+    if (viewHint) {
+      return;
+    }
+
     try {
       const response = await fetch('http://10.10.10.1:3000/api/hint')
 
-
       const data = await response.json()
       setQuestionHint(data.questionHint)
-      setHints(data.hintsRemaining)
+      if (hints > 0) { setHints(hints - 1) }
     } catch (err) {
       setQuestionHint("Error getting hint")
       console.log("error getting hint", err)
@@ -145,6 +147,10 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     }
 
     setAnswerSubmitted(true)
+
+    if (viewHint) {
+      setViewHint(false)
+    }
 
   }
 
