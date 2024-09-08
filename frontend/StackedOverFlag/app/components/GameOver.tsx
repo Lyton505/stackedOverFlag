@@ -1,7 +1,9 @@
 import { View, Text, TextStyle, ViewStyle } from "react-native"
 import { GameButton } from "./GameButton"
 
-export const GameOver = ({ score, lives, hints, replay }: { score: number, lives: number, hints: number, replay: () => void }) => {
+export const GameOver = ({ score, lives, hints, accuracy, replay }: { score: number, lives: number, hints: number, accuracy: number, replay: () => void }) => {
+
+
     return (
         <View style={$gameOverContainer}>
             <Text style={$gameOverText}>Game Over</Text>
@@ -10,7 +12,7 @@ export const GameOver = ({ score, lives, hints, replay }: { score: number, lives
                 <Text>Score: {score}</Text>
                 <Text>Lives: {lives}</Text>
                 <Text>Hints remaining: {hints}</Text>
-                <Text>Accuracy: {score / (score + lives + hints)}</Text>
+                <Text>Accuracy: {accuracy}%</Text>
             </View>
 
 

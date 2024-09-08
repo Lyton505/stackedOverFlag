@@ -106,6 +106,13 @@ const readCSV = () => {
             }
         });
 
+
+        app.get('/api/stats', (req, res) => {
+
+            const accuracy = ((score / (questionIndex)) * 100).toFixed(2);
+            res.json({ score: score, lives: lives, hints: hints, accuracy: accuracy });
+        });
+
         app.post('/api/response', (req, res) => {
     
             const response = req.body;

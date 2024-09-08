@@ -36,7 +36,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const [hints, setHints] = useState<number>(3)
   const [lives, setLives] = useState<number>(3)
   const [score, setScore] = useState<number>(0)
-
+  const [accuracy, setAccuracy] = useState<number>(-17)
   // test api
   const testApi = async () => {
     await fetch('http://localhost:3000/api/question').then(res => res.json()).then(data => {
@@ -101,13 +101,24 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     setLives(3)
     setHints(3)
     setScore(0)
-
+    setQuestion("Getting question...")
     setViewHint(false)
     setIsGameOver(false)
     setContinueGame(true)
     setGameReset(!gameReset)
     return response
 
+  }
+
+  const getStats = async () => {
+    const response = await fetch('http://10.10.10.1:3000/api/stats')
+    const data = await response.json()
+    console.log("data", data)
+    setAccuracy(data.accuracy)
+    setScore(data.score)
+    setLives(data.lives)
+    setHints(data.hints)
+    return data
   }
 
 
@@ -157,6 +168,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const handleNextQuestion = () => {
     setAnswerSubmitted(false)
     getQuestion()
+    getStats()
     if (isGameOver) {
       setContinueGame(false)
     }
@@ -220,7 +232,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
             {gameFlow()}
           </>
         ) : (
-          <GameOver score={score} lives={lives} hints={hints} replay={resetGame} />
+          <GameOver score={score} lives={lives} hints={hints} accuracy={accuracy} replay={resetGame} />
         )}
 
       </KeyboardAwareScrollView>
