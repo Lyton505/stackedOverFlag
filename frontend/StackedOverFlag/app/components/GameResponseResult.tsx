@@ -1,4 +1,3 @@
-import { spacing } from "app/theme"
 import { View, ViewStyle, Text, TextStyle, Image, ImageStyle } from "react-native"
 
 export const GameResponseResult = ({ isAnswerCorrect, answer }: { isAnswerCorrect: boolean, answer: string }) => {
@@ -7,6 +6,8 @@ export const GameResponseResult = ({ isAnswerCorrect, answer }: { isAnswerCorrec
     const incorrectImage = require("../../assets/images/gameplay-wrong.png")
 
     if (isAnswerCorrect === true) {
+        console.log("isAnswerCorrect", isAnswerCorrect)
+        console.log("answer", answer)
         return (
             <View style={$responseResultContainer}>
                 <Image style={$responseImage} source={correctImage} />
@@ -17,6 +18,8 @@ export const GameResponseResult = ({ isAnswerCorrect, answer }: { isAnswerCorrec
             </View>
         )
     } else {
+        console.log("isAnswerCorrect", isAnswerCorrect)
+        console.log("answer", answer)
         return (
             <View style={$responseResultContainer}>
                 <Image style={$responseImage} source={incorrectImage} />
