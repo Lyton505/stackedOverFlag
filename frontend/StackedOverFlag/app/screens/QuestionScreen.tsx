@@ -37,9 +37,13 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const [lives, setLives] = useState<number>(3)
   const [score, setScore] = useState<number>(0)
   const [accuracy, setAccuracy] = useState<number>(-17)
+
+  const baseUrl = "http://10.10.10.1:3000/api"
+  // const baseUrl = "http://localhost:3000/api"
+
   // test api
   const testApi = async () => {
-    await fetch('http://localhost:3000/api/question').then(res => res.json()).then(data => {
+    await fetch(`${baseUrl}/question`).then(res => res.json()).then(data => {
       return data
     })
   }
@@ -47,7 +51,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
 
   // get question from backend
   const getQuestion = async () => {
-    await fetch('http://10.10.10.1:3000/api/question').then(res => res.json()).then(data => {
+    await fetch(`${baseUrl}/question`).then(res => res.json()).then(data => {
       setQuestion(data.question)
       return data
     }).catch(err => {
@@ -58,7 +62,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   // submit answer to backend
   const submitAnswer = async (answer: string) => {
     try {
-      const response = await fetch('http://10.10.10.1:3000/api/response', {
+      const response = await fetch(`${baseUrl}/response`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -80,7 +84,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   }
 
   const startGame = async () => {
-    await fetch('http://10.10.10.1:3000/api/start').then(res => res.json()).then(data => {
+    await fetch(`${baseUrl}/start`).then(res => res.json()).then(data => {
 
       setScore(data.score)
       setLives(data.lives)
@@ -96,7 +100,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   // reset game - called by Play Again button
   const resetGame = async () => {
     console.log("resetting game");
-    const response = await fetch('http://10.10.10.1:3000/api/reset')
+    const response = await fetch(`${baseUrl}/reset`)
 
     setLives(3)
     setHints(3)
@@ -111,7 +115,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   }
 
   const getStats = async () => {
-    const response = await fetch('http://10.10.10.1:3000/api/stats')
+    const response = await fetch(`${baseUrl}/stats`)
     const data = await response.json()
     console.log("data", data)
     setAccuracy(data.accuracy)
@@ -130,7 +134,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     }
 
     try {
-      const response = await fetch('http://10.10.10.1:3000/api/hint')
+      const response = await fetch(`${baseUrl}/hint`)
 
       const data = await response.json()
       setQuestionHint(data.questionHint)
