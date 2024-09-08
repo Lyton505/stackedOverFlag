@@ -165,7 +165,9 @@ const readCSV = () => {
         
         // Start the server
         app.listen(PORT, '0.0.0.0', () => {
+        // app.listen(PORT, () => {
             console.log(`Server is running on http://0.0.0.0:${PORT}`);
+            // console.log(`Server is running on http://localhost:${PORT}`);
         });
 
     }
