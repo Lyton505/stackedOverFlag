@@ -7,6 +7,14 @@ const fs = require('fs');
 const path = require('path');
 const csv = require('csv-parser');
 const { log } = require('console');
+require('dotenv').config();
+
+// import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+const apiKey = process.env.Gemini_API_KEY;
+
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -29,7 +37,6 @@ const readCSV = () => {
             .on('end', () => resolve(results))
             .on('error', (error) => reject(error));
     });
-
 
 }
 
@@ -67,8 +74,39 @@ const readCSV = () => {
             }
         });
 
-        app.post('/api/response', (req, res) => {
 
+        const getHint = async (question) => {
+            const genAI = new GoogleGenerativeAI(apiKey);
+
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+
+            const prompt = `
+            You are a geography expert. You are given a question and need to provide a hint that is related to the question. The hint should not be the answer to the question or contain any key words from the question. The question is: ${question}. Provide hint that is less than 10 words.
+            `
+            
+            const result = await model.generateContent(prompt);
+            console.log(result.response.text());
+
+            return result.response.text();
+        }
+
+
+        // get hint from gemini
+        app.get('/api/hint', async (req, res) => {
+            if (hints > 0) {
+                const question = csvData[questionIndex];
+
+                const questionHint = await getHint(question.Question);
+                console.log("questionHint is: ", questionHint);
+                res.json({ questionHint: questionHint, hintsRemaining: hints });
+                hints--;
+            } else {
+                res.json({ questionHint: "No hints left", hintsRemaining: hints });
+            }
+        });
+
+        app.post('/api/response', (req, res) => {
     
             const response = req.body;
             const userAnswer = response.answer;
