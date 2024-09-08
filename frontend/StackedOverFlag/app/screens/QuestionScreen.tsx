@@ -11,6 +11,7 @@ import { GameQuestion } from "app/components/GameQuestion"
 import { GameAnswerContainer } from "app/components/GameAnswerContainer"
 import { GameButton } from "app/components/GameButton"
 import { GameResponseResult } from "app/components/GameResponseResult"
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry"
 
 interface QuestionScreenProps extends AppStackScreenProps<"QuestionScreen"> { }
 
@@ -20,15 +21,18 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   // toDo: get question & answer from backend
   // toDo: use better state management
   const [question, setQuestion] = useState<string>("Getting question...")
-  const [viewHint, setViewHint] = useState<boolean>(true)
+  const [viewHint, setViewHint] = useState<boolean>(false)
 
   const [userAnswer, setUserAnswer] = useState<string>("")
 
-  const [answer, setAnswer] = useState<string>("Nigeria")
+  const [answer, setAnswer] = useState<string>("")
   const [answerSubmitted, setAnswerSubmitted] = useState<boolean>(false)
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>(false)
   const [viewNextQuestion, setViewNextQuestion] = useState<boolean>(false)
 
+  const [hints, setHints] = useState<number>(3)
+  const [lives, setLives] = useState<number>(3)
+  const [score, setScore] = useState<number>(0)
 
   // test api
   const testApi = async () => {
@@ -43,7 +47,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   // get question from backend
   const getQuestion = async () => {
     console.log("getting question");
-    await fetch('http://localhost:3000/api/question').then(res => res.json()).then(data => {
+    await fetch('http://10.10.10.1:3000/api/question').then(res => res.json()).then(data => {
       console.log("api question response", data)
       setQuestion(data.question)
       return data
@@ -52,35 +56,37 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     })
   }
 
-
-  // get answer from backend
-  const getAnswer = async () => {
-    console.log("getting answer");
-    await fetch('http://localhost:3000/api/answer').then(res => res.json()).then(data => {
-      console.log("api answer response", data)
-      return data
-    })
-  }
-
   // submit answer to backend
   const submitAnswer = async (answer: string) => {
     console.log("submitting answer");
-    await fetch('http://localhost:3000/api/submit', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ answer })
-    }).then(res => res.json()).then(data => {
-      console.log("api test response", data)
+    try {
+      const response = await fetch('http://10.10.10.1:3000/api/response', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ answer })
+      })
+
+
+      const data = await response.json()
+      console.log("api submit response", data)
+      setAnswer(data.answer)
+      setScore(data.score)
+      setLives(data.lives)
+      setHints(data.hints)
+
       return data
-    })
+    } catch (err) {
+      console.log("error submitting answer", err)
+      return null
+    }
   }
 
   // reset game
   const resetGame = async () => {
     console.log("resetting game");
-    await fetch('http://localhost:3000/api/reset').then(res => res.json()).then(data => {
+    await fetch('http://10.10.10.1:3000/api/reset').then(res => res.json()).then(data => {
       console.log("api reset response", data)
       return data
     })
@@ -92,10 +98,11 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     setViewHint(!viewHint)
   }
 
-  const handleSubmitGuess = () => {
+  const handleSubmitGuess = async () => {
     console.log("submit guess");
+    const response = await submitAnswer(userAnswer)
 
-    if (userAnswer === answer) {
+    if (response && response.message === "Correct") {
       setIsAnswerCorrect(true)
     } else {
       setIsAnswerCorrect(false)
@@ -108,6 +115,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const handleNextQuestion = () => {
     console.log("next question");
     setAnswerSubmitted(false)
+    getQuestion()
   }
 
   useEffect(() => {
@@ -127,7 +135,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
       >
 
         <View style={$questionHeaderContainer}>
-          <GameHeader />
+          <GameHeader score={score} lives={lives} hints={hints} />
           <GameQuestion question={question} />
         </View>
 
