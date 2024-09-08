@@ -82,7 +82,7 @@ const readCSV = () => {
 
 
             const prompt = `
-            You are a geography expert. You are given a question and need to provide a hint that is related to the question. The hint should not be the answer to the question or contain any key words from the question. The question is: ${question}. Provide hint that is less than 10 words.
+            You are a geography expert. You are given a question and need to provide a hint that is related to the question. The hint should not be the answer to the question or contain any key words from the question. The question is: ${question}. Provide hint that is less than 20 words.
             `
             
             const result = await model.generateContent(prompt);
