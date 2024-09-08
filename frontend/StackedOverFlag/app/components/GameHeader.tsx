@@ -2,7 +2,11 @@ import { View, Text, Image, ViewStyle, TextStyle, ImageStyle } from "react-nativ
 import React, { FC, useState } from "react"
 import { spacing } from "../theme"
 
-export const GameHeader = () => {
+export const GameHeader = ({ score, lives, hints }: { score: number, lives: number, hints: number }) => {
+
+    console.log("Score", score);
+    console.log("Lives", lives);
+    console.log("Hints", hints);
 
     const tokenImage = require("../../assets/images/gameplay-tokens.png")
     const heartImage = require("../../assets/images/gameplay-heart.png")
@@ -12,15 +16,15 @@ export const GameHeader = () => {
         <View style={$gameInfoContainer}>
             <View style={$gameInfoItem}>
                 <Image source={tokenImage} style={$rewardImage} />
-                <Text style={$gameInfoText}>1</Text>
+                <Text style={$gameInfoText}>{score}</Text>
             </View>
             <View style={$gameInfoItem}>
                 <Image source={heartImage} style={$rewardImage} />
-                <Text style={$gameInfoText}>2</Text>
+                <Text style={$gameInfoText}>{lives}</Text>
             </View>
             <View style={$gameInfoItem}>
                 <Image source={hintsRemainingImage} style={$rewardImage} />
-                <Text style={$gameInfoText}>3</Text>
+                <Text style={$gameInfoText}>{hints}</Text>
             </View>
         </View>
     )
