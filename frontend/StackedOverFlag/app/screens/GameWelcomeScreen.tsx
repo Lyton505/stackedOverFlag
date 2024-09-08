@@ -22,7 +22,7 @@ export const GameWelcomeScreen: FC<GameWelcomeScreenProps> = observer(function G
       </View>
       <View >
         <Text style={$instructionsTitle}>Game Instructions</Text>
-        <Text style={$instructions}>For each question, you are supposed to type the name of the country where that phenomenon is found. A correct answer earns a token, two consecutive incorrect answers cost a heart, and you get 1 hint and 1 heart for every 3 correct answers. If you run out of hearts you lose. </Text>
+        <Text style={$instructions}>For each question, you are supposed to type the name of the country where that phenomenon is found. A correct answer earns a token, an incorrect answer costs a heart, and you get 1 hint for every 3 correct answers. If you run out of hearts you lose. Try winning the game and you might get a better accuracy score. Good luck! </Text>
       </View>
       <View style={$buttonContainer}>
         <Button style={$button}
