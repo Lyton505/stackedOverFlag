@@ -66,12 +66,13 @@ const readCSV = () => {
 
     
             const response = req.body;
+            console.log("response is: ", response);
             const userAnswer = response.answer;
+            const correctAnswer = csvData[questionIndex].Answer;
         
-        
-            if (userAnswer === csvData[questionIndex].Answer) {
+            if (userAnswer === correctAnswer) {
                 console.log("User correct answer:", userAnswer);
-                console.log("Correct answer:", csvData[questionIndex].Answer);
+                console.log("Correct answer:", correctAnswer);
                 
                 score++;
 
@@ -79,13 +80,13 @@ const readCSV = () => {
                     lives++;
                 }
 
-                res.json({ message: 'Correct', score: score, lives: lives, hints: hints });
+                res.json({ answer: correctAnswer, message: 'Correct', score: score, lives: lives, hints: hints });
 
             } else {
                 console.log("User incorrect answer:", userAnswer);
-                console.log("Correct answer:", csvData[questionIndex].Answer);
+                console.log("Correct answer:", correctAnswer);
                 lives--;
-                res.json({ message: 'Incorrect', score: score, lives: lives, hints: hints });
+                res.json({ answer: correctAnswer, message: 'Incorrect', score: score, lives: lives, hints: hints });
             }
         
             
