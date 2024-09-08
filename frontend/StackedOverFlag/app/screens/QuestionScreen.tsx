@@ -12,6 +12,7 @@ import { GameAnswerContainer } from "app/components/GameAnswerContainer"
 import { GameButton } from "app/components/GameButton"
 import { GameResponseResult } from "app/components/GameResponseResult"
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry"
+import { GameOver } from "app/components/GameOver"
 
 interface QuestionScreenProps extends AppStackScreenProps<"QuestionScreen"> { }
 
@@ -29,6 +30,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const [answerSubmitted, setAnswerSubmitted] = useState<boolean>(false)
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>(false)
   const [viewNextQuestion, setViewNextQuestion] = useState<boolean>(false)
+  const [isGameOver, setIsGameOver] = useState<boolean>(false)
 
   const [hints, setHints] = useState<number>(3)
   const [lives, setLives] = useState<number>(3)
@@ -108,6 +110,10 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
       setIsAnswerCorrect(false)
     }
 
+    if (response && response.isGameOver) {
+      setIsGameOver(true)
+    }
+
     setAnswerSubmitted(true)
 
   }
@@ -122,6 +128,28 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
     console.log("Starting game");
     getQuestion();
   }, [])
+
+
+  const gameFlow = () => {
+    if (!answerSubmitted) {
+      return (
+        <View style={$answerBodyContainer}>
+          {viewHint && <GameHint />}
+          <GameAnswerContainer onChangeText={setUserAnswer} />
+          <View style={$submitButtonContainer}>
+            <GameButton btnText="View Hint" onPress={handleViewHint} />
+            <GameButton btnText="Submit Guess" onPress={handleSubmitGuess} />
+          </View>
+        </View >
+      )
+    } else {
+      return (
+        <View style={$responseResultContainer}>
+          <GameResponseResult isAnswerCorrect={isAnswerCorrect} answer={answer} />
+          <GameButton btnText="Next Question" onPress={handleNextQuestion} />
+        </View>)
+    }
+  }
 
 
 
@@ -139,20 +167,12 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
           <GameQuestion question={question} />
         </View>
 
-        {(!answerSubmitted) ? (
-          <View style={$answerBodyContainer}>
-            {viewHint && <GameHint />}
-            <GameAnswerContainer onChangeText={setUserAnswer} />
-            <View style={$submitButtonContainer}>
-              <GameButton btnText="View Hint" onPress={handleViewHint} />
-              <GameButton btnText="Submit Guess" onPress={handleSubmitGuess} />
-            </View>
-          </View >)
-          : (
-            <View style={$responseResultContainer}>
-              <GameResponseResult isAnswerCorrect={isAnswerCorrect} answer={answer} />
-              <GameButton btnText="Next Question" onPress={handleNextQuestion} />
-            </View>)}
+
+        {isGameOver ? (
+          <GameOver />
+        ) : (
+          gameFlow()
+        )}
 
       </KeyboardAwareScrollView>
     </SafeAreaView>
