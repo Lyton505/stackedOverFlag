@@ -4,10 +4,6 @@ import { spacing } from "../theme"
 
 export const GameHeader = ({ score, lives, hints }: { score: number, lives: number, hints: number }) => {
 
-    console.log("Score", score);
-    console.log("Lives", lives);
-    console.log("Hints", hints);
-
     const tokenImage = require("../../assets/images/gameplay-tokens.png")
     const heartImage = require("../../assets/images/gameplay-heart.png")
     const hintsRemainingImage = require("../../assets/images/gameplay-hints.png")

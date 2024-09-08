@@ -31,6 +31,8 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean>(false)
   const [viewNextQuestion, setViewNextQuestion] = useState<boolean>(false)
   const [isGameOver, setIsGameOver] = useState<boolean>(false)
+  const [continueGame, setContinueGame] = useState<boolean>(true)
+  const [gameReset, setGameReset] = useState<boolean>(false)
 
   const [hints, setHints] = useState<number>(3)
   const [lives, setLives] = useState<number>(3)
@@ -38,9 +40,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
 
   // test api
   const testApi = async () => {
-    console.log("testing api");
     await fetch('http://localhost:3000/api/question').then(res => res.json()).then(data => {
-      console.log("api test response", data)
       return data
     })
   }
@@ -48,9 +48,7 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
 
   // get question from backend
   const getQuestion = async () => {
-    console.log("getting question");
     await fetch('http://10.10.10.1:3000/api/question').then(res => res.json()).then(data => {
-      console.log("api question response", data)
       setQuestion(data.question)
       return data
     }).catch(err => {
@@ -60,7 +58,6 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
 
   // submit answer to backend
   const submitAnswer = async (answer: string) => {
-    console.log("submitting answer");
     try {
       const response = await fetch('http://10.10.10.1:3000/api/response', {
         method: 'POST',
@@ -72,7 +69,6 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
 
 
       const data = await response.json()
-      console.log("api submit response", data)
       setAnswer(data.answer)
       setScore(data.score)
       setLives(data.lives)
@@ -80,28 +76,47 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
 
       return data
     } catch (err) {
-      console.log("error submitting answer", err)
       return null
     }
   }
 
-  // reset game
+  const startGame = async () => {
+    await fetch('http://10.10.10.1:3000/api/start').then(res => res.json()).then(data => {
+
+      setScore(data.score)
+      setLives(data.lives)
+      setHints(data.hints)
+      setIsGameOver(data.isGameOver)
+
+      return data
+    }).catch(err => {
+      console.log("error starting game", err);
+    })
+  }
+
+  // reset game - called by Play Again button
   const resetGame = async () => {
     console.log("resetting game");
-    await fetch('http://10.10.10.1:3000/api/reset').then(res => res.json()).then(data => {
-      console.log("api reset response", data)
-      return data
-    })
+    const response = await fetch('http://10.10.10.1:3000/api/reset')
+
+    setLives(3)
+    setHints(3)
+    setScore(0)
+
+
+    setIsGameOver(false)
+    setContinueGame(true)
+    setGameReset(!gameReset)
+    return response
+
   }
 
 
   const handleViewHint = () => {
-    console.log("view hint");
     setViewHint(!viewHint)
   }
 
   const handleSubmitGuess = async () => {
-    console.log("submit guess");
     const response = await submitAnswer(userAnswer)
 
     if (response && response.message === "Correct") {
@@ -119,18 +134,23 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   }
 
   const handleNextQuestion = () => {
-    console.log("next question");
     setAnswerSubmitted(false)
     getQuestion()
+    if (isGameOver) {
+      setContinueGame(false)
+    }
   }
 
   useEffect(() => {
-    console.log("Starting game");
     getQuestion();
-  }, [])
+    startGame();
+  }, [continueGame, gameReset])
 
 
   const gameFlow = () => {
+
+
+
     if (!answerSubmitted) {
       return (
         <View style={$answerBodyContainer}>
@@ -139,6 +159,10 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
           <View style={$submitButtonContainer}>
             <GameButton btnText="View Hint" onPress={handleViewHint} />
             <GameButton btnText="Submit Guess" onPress={handleSubmitGuess} />
+            <GameButton
+              btnText="Play Again"
+              onPress={resetGame}
+            />
           </View>
         </View >
       )
@@ -152,6 +176,13 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
   }
 
 
+  const questionHeader = (
+    <View style={$questionHeaderContainer}>
+      <GameHeader score={score} lives={lives} hints={hints} />
+      <GameQuestion question={question} />
+    </View>
+  )
+
 
   return (
     <SafeAreaView style={[$container, $containerInsets]}>
@@ -162,16 +193,13 @@ export const QuestionScreen: FC<QuestionScreenProps> = observer(function Questio
         enableOnAndroid={true}
       >
 
-        <View style={$questionHeaderContainer}>
-          <GameHeader score={score} lives={lives} hints={hints} />
-          <GameQuestion question={question} />
-        </View>
-
-
-        {isGameOver ? (
-          <GameOver />
+        {continueGame ? (
+          <>
+            {questionHeader}
+            {gameFlow()}
+          </>
         ) : (
-          gameFlow()
+          <GameOver score={score} lives={lives} hints={hints} replay={resetGame} />
         )}
 
       </KeyboardAwareScrollView>

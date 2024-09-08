@@ -39,7 +39,7 @@ const readCSV = () => {
         const csvData = await readCSV();
         let questionIndex = 0;
         let score = 0;
-        let lives = 1;
+        let lives = 0;
         let hints = 3;
 
         // toDo: remove this
@@ -49,6 +49,11 @@ const readCSV = () => {
         // routes
         app.get('/test', (req, res) => {
             res.send('Hello, World!');
+        });
+
+        app.get('/api/start', (req, res) => {
+            res.json({ score: score, lives: lives, hints: hints, isGameOver: false });
+
         });
 
         app.get('/api/question', (req, res) => {
@@ -66,14 +71,11 @@ const readCSV = () => {
 
     
             const response = req.body;
-            console.log("response is: ", response);
             const userAnswer = response.answer;
             const correctAnswer = csvData[questionIndex].Answer;
         
             if (userAnswer === correctAnswer) {
-                console.log("User correct answer:", userAnswer);
-                console.log("Correct answer:", correctAnswer);
-                
+
                 score++;
 
                 if (score % 3 === 0){
@@ -83,11 +85,9 @@ const readCSV = () => {
                 res.json({ answer: correctAnswer, message: 'Correct', score: score, lives: lives, hints: hints, isGameOver: false });
 
             } else {
-                console.log("User incorrect answer:", userAnswer);
-                console.log("Correct answer:", correctAnswer);
                 lives--;
 
-                if (lives === 0) {
+                if (lives <= 0) {
                     res.json({ answer: correctAnswer, message: 'Incorrect', score: score, lives: lives, hints: hints, isGameOver: true });
                 } else {
                     res.json({ answer: correctAnswer, message: 'Incorrect', score: score, lives: lives, hints: hints, isGameOver: false });
@@ -95,13 +95,21 @@ const readCSV = () => {
 
                 
             }
-        
+
+            console.log({
+                questionIndex: questionIndex,
+                score: score,
+                lives: lives,
+                hints: hints,
+                isGameOver: false
+            });
             
             questionIndex++;
         });
 
 
-        app.post('/api/reset', (req, res) => {
+        app.get('/api/reset', (req, res) => {
+            console.log("resetting game");
             questionIndex = 0;
             score = 0;
             lives = 3;
