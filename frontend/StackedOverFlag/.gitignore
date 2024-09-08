@@ -86,3 +86,7 @@ web-build/
 !env.js
 
 /coverage
+
+
+# secrets
+.env
