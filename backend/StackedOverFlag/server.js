@@ -39,7 +39,7 @@ const readCSV = () => {
         const csvData = await readCSV();
         let questionIndex = 0;
         let score = 0;
-        let lives = 3;
+        let lives = 1;
         let hints = 3;
 
         // toDo: remove this
@@ -80,13 +80,20 @@ const readCSV = () => {
                     lives++;
                 }
 
-                res.json({ answer: correctAnswer, message: 'Correct', score: score, lives: lives, hints: hints });
+                res.json({ answer: correctAnswer, message: 'Correct', score: score, lives: lives, hints: hints, isGameOver: false });
 
             } else {
                 console.log("User incorrect answer:", userAnswer);
                 console.log("Correct answer:", correctAnswer);
                 lives--;
-                res.json({ answer: correctAnswer, message: 'Incorrect', score: score, lives: lives, hints: hints });
+
+                if (lives === 0) {
+                    res.json({ answer: correctAnswer, message: 'Incorrect', score: score, lives: lives, hints: hints, isGameOver: true });
+                } else {
+                    res.json({ answer: correctAnswer, message: 'Incorrect', score: score, lives: lives, hints: hints, isGameOver: false });
+                }
+
+                
             }
         
             
