@@ -36,7 +36,15 @@ This is a game built with React Native. It is a trivia game where the user has t
 11. You can now play the game in the browser.
 
 
-* Video coming soon
+## Starting the services
+https://github.com/user-attachments/assets/23818ac0-0f73-45b9-8a61-627d98e60d57
+
+## Gameplay on Android
+https://github.com/user-attachments/assets/3d0f23e8-038e-41bf-9410-c7fbc88f7ef4
+
+## Gameplay on iOS
+
+https://github.com/user-attachments/assets/99405abf-e932-43e4-8f93-51d39f5d9726
 
 
 #### nb. I used the Ignite template to build this project to save time. The old README.md is in [ReadMe.old.md](./ReadMe.old.md)
