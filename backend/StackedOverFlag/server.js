@@ -46,7 +46,7 @@ const readCSV = () => {
         const csvData = await readCSV();
         let questionIndex = 0;
         let score = 0;
-        let lives = 0;
+        let lives = 3;
         let hints = 3;
 
         // toDo: remove this
@@ -118,8 +118,10 @@ const readCSV = () => {
             const response = req.body;
             const userAnswer = response.answer;
             const correctAnswer = csvData[questionIndex].Answer;
+
+            console.log("userAnswer is: ", userAnswer.toLowerCase().trim(), " and correctAnswer is: ", correctAnswer.toLowerCase().trim());
         
-            if (userAnswer === correctAnswer) {
+            if (userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim()) {
 
                 score++;
 
