@@ -4,7 +4,7 @@ This is a game where the user has to match the question with the correct country
 
 This app is built with React Native and Node.js. The frontend is built with Expo from the IgniteRed template and the backend is built with Express. Questions are stored in a CSV file.
 
-The setup guide is in the README.md file in (this) root folder.
+The setup guide is in the README.md file in the frontend/StackedOverFlag folder.
 
 ####
 
