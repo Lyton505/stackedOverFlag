@@ -38,15 +38,27 @@ nb. Sign in with Google doesn't work yet
 
 ## Starting the services
 
-![Starting services](assets/starting_services.mp4)
+
+https://github.com/user-attachments/assets/ba740990-3c23-474a-9869-cc81aef4d502
+
+
+
 
 ## Gameplay on Android
 
-![Android gameplay](assets/android_gameplay.mp4)
+
+
+https://github.com/user-attachments/assets/79fb89df-4d42-4887-8059-c795df7335c0
+
+
 
 ## Gameplay on iOS
 
-![iOS gameplay](assets/ios_gameplay.mp4)
+
+
+https://github.com/user-attachments/assets/a463259a-9ed2-4391-83e8-ab1c3d0a297b
+
+
 
 #### nb. I used the Ignite template to build this project to save time. The old README.md is in [ReadMe.old.md](./ReadMe.old.md)
 
